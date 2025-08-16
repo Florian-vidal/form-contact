@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 // ------- CONFIG MAILERSEND
-const mailserSend = new MailerSend({
+const mailerSend = new MailerSend({
   apiKey: process.env.MAILERSEND_API_KEY,
 });
 
@@ -40,12 +40,13 @@ app.post("/form", async (req, res) => {
       .setText(message);
 
     // On envoie les infos à MailerSend pour créer le mail et l'envoyer.
-    // const result = await mailerSend.email.send(emailParams);
+    const result = await mailerSend.email.send(emailParams);
 
     console.log(result); // réponse de MailerSend
 
     res.status(200).json(result);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: error.message });
   }
 });
